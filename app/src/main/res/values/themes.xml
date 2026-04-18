@@ -3,7 +3,9 @@
     <style name="Base.Theme.CP171976GM181937PC191249" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="floatingActionButtonStyle">@style/Widget.MaterialComponents.FloatingActionButton</item>
     </style>
+
 
     <style name="Theme.CP171976GM181937PC191249" parent="Base.Theme.CP171976GM181937PC191249" />
 </resources>

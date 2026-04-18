@@ -1,9 +1,9 @@
-package com.example.cp171976_gm181937_pc191249.model
+package com.example.cp171976_gm181937_pc191249
 
-data class Transaccion (
-    val id: Int? = null,           // El ID lo genera SQLite solo
-    val tipo: String,              // "Gasto" o "Ingreso"
-    val monto: Double,             // Cantidad de dinero
-    val categoria: String,         // Ej: "Alimentación", "Transporte"
-    val fecha: String              // Guardaremos la fecha como texto (YYYY-MM-DD)
+data class Transaccion(
+    val id: Int,
+    val monto: Double,
+    val categoria: String,
+    val fecha: String,
+    val tipo: String // "INGRESO" o "GASTO"
 )

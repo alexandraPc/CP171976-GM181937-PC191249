@@ -1,5 +1,6 @@
 package com.example.cp171976_gm181937_pc191249.database
 
+import com.example.cp171976_gm181937_pc191249.Transaccion
 import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
@@ -100,5 +101,35 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, "Finanzas.db"
         this.writableDatabase.delete("categorias", "nombre = ?", arrayOf(nombre))
     }
 
+    fun obtenerSumaPorTipo(tipo: String): Double {
+        var total = 0.0
+        val db = this.readableDatabase
+        val cursor = db.rawQuery("SELECT SUM(monto) FROM transacciones WHERE tipo = ?", arrayOf(tipo))
+        if (cursor.moveToFirst()) {
+            total = cursor.getDouble(0)
+        }
+        cursor.close()
+        return total
+    }
+    fun obtenerUltimosGastos(): List<Transaccion> {
+        val lista = mutableListOf<Transaccion>()
+        val db = this.readableDatabase
 
+        // ORDER BY id DESC (el más nuevo primero) y LIMIT 4 (solo 4 filas)
+        val cursor = db.rawQuery("SELECT * FROM transacciones ORDER BY id DESC LIMIT 4", null)
+
+        if (cursor.moveToFirst()) {
+            do {
+                lista.add(Transaccion(
+                    cursor.getInt(cursor.getColumnIndexOrThrow("id")),
+                    cursor.getDouble(cursor.getColumnIndexOrThrow("monto")),
+                    cursor.getString(cursor.getColumnIndexOrThrow("categoria")),
+                    cursor.getString(cursor.getColumnIndexOrThrow("fecha")),
+                    cursor.getString(cursor.getColumnIndexOrThrow("tipo"))
+                ))
+            } while (cursor.moveToNext())
+        }
+        cursor.close()
+        return lista
+    }
 }
