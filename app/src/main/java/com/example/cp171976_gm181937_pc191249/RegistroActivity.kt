@@ -71,7 +71,7 @@ class RegistroActivity : AppCompatActivity() {
         // --- 2. CONFIGURACIÓN DE FECHA ---
         val calendario = Calendar.getInstance()
         val formatoVista = SimpleDateFormat("d 'de' MMMM", Locale("es", "ES"))
-        val formatoDB = SimpleDateFormat("dd/MM/yyyy", Locale.US)
+        val formatoDB = SimpleDateFormat("yyyy-MM-dd", Locale.US)
         fechaParaDB = formatoDB.format(calendario.time)
         tvFecha.text = formatoVista.format(calendario.time)
 

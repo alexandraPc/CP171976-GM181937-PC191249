@@ -51,7 +51,7 @@ class HistorySectionAdapter(private val items: List<HistoryItem>) :
         fun bind(dateStr: String) {
             try {
                 val inputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-                val outputFormat = SimpleDateFormat("EEEE, dd MMM", Locale.getDefault())
+                val outputFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
                 val date = inputFormat.parse(dateStr)
                 binding.tvHeaderDate.text = date?.let { outputFormat.format(it).uppercase() } ?: dateStr
             } catch (e: Exception) {

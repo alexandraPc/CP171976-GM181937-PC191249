@@ -112,7 +112,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, "Finanzas.db"
         return total
     }
     fun obtenerUltimosGastos(): List<Transaccion> {
-        return obtenerTransaccionesFiltradas()
+        return obtenerTransaccionesFiltradas(limit = 5)
     }
 
     fun obtenerTransaccionesFiltradas(
@@ -120,7 +120,8 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, "Finanzas.db"
         categoria: String? = null,
         fechaInicio: String? = null,
         fechaFin: String? = null,
-        tipo: String? = null
+        tipo: String? = null,
+        limit: Int? = null
     ): List<Transaccion> {
         val lista = mutableListOf<Transaccion>()
         val db = this.readableDatabase
@@ -159,7 +160,8 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, "Finanzas.db"
             if (selectionArgs.isEmpty()) null else selectionArgs.toTypedArray(),
             null,
             null,
-            "fecha DESC, id DESC"
+            "fecha DESC, id DESC",
+            limit?.toString()
         )
 
         if (cursor.moveToFirst()) {

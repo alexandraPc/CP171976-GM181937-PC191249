@@ -5,27 +5,47 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#F7F9FC"
+    android:fitsSystemWindows="true"
     tools:context=".HistoryActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#FFFFFF"
+        android:fitsSystemWindows="true"
         app:elevation="0dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="16dp">
+            android:paddingHorizontal="16dp">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Historial de Transacciones"
-                android:textColor="#1A1C1E"
-                android:textSize="24sp"
-                android:textStyle="bold" />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Historial de Transacciones"
+                    android:textColor="#1A1C1E"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvClearFilters"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:text="Limpiar"
+                    android:textColor="#1A237E"
+                    android:textStyle="bold"
+                    android:padding="8dp"
+                    android:visibility="gone"
+                    tools:visibility="visible" />
+            </RelativeLayout>
 
             <EditText
                 android:id="@+id/etSearch"

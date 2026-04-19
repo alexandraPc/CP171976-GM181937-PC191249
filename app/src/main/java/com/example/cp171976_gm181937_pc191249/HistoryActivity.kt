@@ -1,6 +1,5 @@
 package com.example.cp171976_gm181937_pc191249
 
-import android.app.DatePickerDialog
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
@@ -34,6 +33,26 @@ class HistoryActivity : AppCompatActivity() {
         dbHelper = DatabaseHelper(this)
         setupNavigation()
         setupFilters()
+        
+        binding.tvClearFilters.setOnClickListener {
+            clearFilters()
+        }
+        
+        cargarHistorial()
+    }
+
+    private fun clearFilters() {
+        filterQuery = null
+        filterType = "Todos"
+        filterCategory = "Todas"
+        filterStartDate = null
+        filterEndDate = null
+        
+        binding.etSearch.text = null
+        binding.chipAll.isChecked = true
+        binding.spinnerCategory.setSelection(0)
+        binding.btnDateRange.text = "Rango de fecha"
+        
         cargarHistorial()
     }
 
@@ -68,7 +87,7 @@ class HistoryActivity : AppCompatActivity() {
         })
 
         // Chips
-        binding.chipGroupType.setOnCheckedChangeListener { group, checkedId ->
+        binding.chipGroupType.setOnCheckedChangeListener { _, checkedId ->
             filterType = when (checkedId) {
                 R.id.chipIncome -> "INGRESO"
                 R.id.chipExpense -> "GASTO"
@@ -102,10 +121,17 @@ class HistoryActivity : AppCompatActivity() {
                 .build()
 
             dateRangePicker.addOnPositiveButtonClickListener { selection ->
-                val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-                filterStartDate = sdf.format(Date(selection.first))
-                filterEndDate = sdf.format(Date(selection.second))
-                binding.btnDateRange.text = "$filterStartDate - $filterEndDate"
+                val sdfDB = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).apply {
+                    timeZone = TimeZone.getTimeZone("UTC")
+                }
+                val sdfUI = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).apply {
+                    timeZone = TimeZone.getTimeZone("UTC")
+                }
+                
+                filterStartDate = sdfDB.format(Date(selection.first))
+                filterEndDate = sdfDB.format(Date(selection.second))
+                
+                binding.btnDateRange.text = "${sdfUI.format(Date(selection.first))} - ${sdfUI.format(Date(selection.second))}"
                 cargarHistorial()
             }
             dateRangePicker.show(supportFragmentManager, "DATE_RANGE_PICKER")
@@ -121,6 +147,8 @@ class HistoryActivity : AppCompatActivity() {
             tipo = filterType
         )
 
+        binding.tvClearFilters.visibility = if (isAnyFilterActive()) View.VISIBLE else View.GONE
+
         val items = mutableListOf<HistoryItem>()
         var lastDate = ""
 
@@ -134,6 +162,13 @@ class HistoryActivity : AppCompatActivity() {
 
         binding.rvHistory.layoutManager = LinearLayoutManager(this)
         binding.rvHistory.adapter = HistorySectionAdapter(items)
+    }
+
+    private fun isAnyFilterActive(): Boolean {
+        return !filterQuery.isNullOrEmpty() || 
+               filterType != "Todos" || 
+               filterCategory != "Todas" || 
+               filterStartDate != null
     }
 }
 
