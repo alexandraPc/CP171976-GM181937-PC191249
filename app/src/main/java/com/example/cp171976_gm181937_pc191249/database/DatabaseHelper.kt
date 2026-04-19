@@ -6,11 +6,11 @@ import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 
-class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, "Finanzas.db", null, 1) {
+class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, "Finanzas.db", null, 2) {
 
     override fun onCreate(db: SQLiteDatabase?) {
         // 1. Tabla de transacciones (Donde se guardan los gastos/ingresos)
-        db?.execSQL("CREATE TABLE transacciones (id INTEGER PRIMARY KEY AUTOINCREMENT, tipo TEXT, monto REAL, categoria TEXT, fecha TEXT)")
+        db?.execSQL("CREATE TABLE transacciones (id INTEGER PRIMARY KEY AUTOINCREMENT, nombre TEXT, tipo TEXT, monto REAL, categoria TEXT, fecha TEXT)")
 
         // 2. Tabla de categorías (Donde se guardan las etiquetas como "🍔 Antojos")
         db?.execSQL("CREATE TABLE categorias (id INTEGER PRIMARY KEY AUTOINCREMENT, nombre TEXT, tipo TEXT)")
@@ -41,10 +41,10 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, "Finanzas.db"
 
     // --- FUNCIONES QUE LLAMA TU MAIN ACTIVITY ---
 
-    fun insertarTransaccion(tipo: String, monto: Double, categoria: String, fecha: String): Long {
+    fun insertarTransaccion(nombre: String, tipo: String, monto: Double, categoria: String, fecha: String): Long {
         val db = this.writableDatabase
         val v = ContentValues().apply {
-            put("tipo", tipo); put("monto", monto); put("categoria", categoria); put("fecha", fecha)
+            put("nombre", nombre); put("tipo", tipo); put("monto", monto); put("categoria", categoria); put("fecha", fecha)
         }
         return db.insert("transacciones", null, v)
     }
@@ -122,6 +122,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, "Finanzas.db"
             do {
                 lista.add(Transaccion(
                     cursor.getInt(cursor.getColumnIndexOrThrow("id")),
+                    cursor.getString(cursor.getColumnIndexOrThrow("nombre")),
                     cursor.getDouble(cursor.getColumnIndexOrThrow("monto")),
                     cursor.getString(cursor.getColumnIndexOrThrow("categoria")),
                     cursor.getString(cursor.getColumnIndexOrThrow("fecha")),
