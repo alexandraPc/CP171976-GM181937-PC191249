@@ -112,11 +112,55 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, "Finanzas.db"
         return total
     }
     fun obtenerUltimosGastos(): List<Transaccion> {
+        return obtenerTransaccionesFiltradas()
+    }
+
+    fun obtenerTransaccionesFiltradas(
+        query: String? = null,
+        categoria: String? = null,
+        fechaInicio: String? = null,
+        fechaFin: String? = null,
+        tipo: String? = null
+    ): List<Transaccion> {
         val lista = mutableListOf<Transaccion>()
         val db = this.readableDatabase
 
-        // ORDER BY id DESC (el más nuevo primero) y LIMIT 4 (solo 4 filas)
-        val cursor = db.rawQuery("SELECT * FROM transacciones ORDER BY id DESC LIMIT 4", null)
+        var selection = ""
+        val selectionArgs = mutableListOf<String>()
+
+        if (!query.isNullOrEmpty()) {
+            selection += "nombre LIKE ?"
+            selectionArgs.add("%$query%")
+        }
+
+        if (!categoria.isNullOrEmpty() && categoria != "Todas") {
+            if (selection.isNotEmpty()) selection += " AND "
+            selection += "categoria = ?"
+            selectionArgs.add(categoria)
+        }
+
+        if (!fechaInicio.isNullOrEmpty() && !fechaFin.isNullOrEmpty()) {
+            if (selection.isNotEmpty()) selection += " AND "
+            selection += "fecha BETWEEN ? AND ?"
+            selectionArgs.add(fechaInicio)
+            selectionArgs.add(fechaFin)
+        }
+
+        if (!tipo.isNullOrEmpty() && tipo != "Todos") {
+            if (selection.isNotEmpty()) selection += " AND "
+            selection += "tipo = ?"
+            selectionArgs.add(tipo)
+        }
+
+        val cursor = db.query(
+            "transacciones",
+            null,
+            if (selection.isEmpty()) null else selection,
+            if (selectionArgs.isEmpty()) null else selectionArgs.toTypedArray(),
+            null,
+            null,
+            "fecha DESC, id DESC"
+        )
 
         if (cursor.moveToFirst()) {
             do {
