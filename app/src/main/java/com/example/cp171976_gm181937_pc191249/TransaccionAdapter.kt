@@ -25,9 +25,14 @@ class TransaccionAdapter(private val lista: List<Transaccion>) :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = lista[position]
 
-        // Usamos la categoría como título principal
-        holder.txtConcepto.text = item.categoria
-        holder.txtCategoria.text = item.fecha
+        // Si el nombre está vacío, mostramos la categoría como título principal
+        if (item.nombre.isNotEmpty()) {
+            holder.txtConcepto.text = item.nombre
+            holder.txtCategoria.text = "${item.categoria} • ${item.fecha}"
+        } else {
+            holder.txtConcepto.text = item.categoria
+            holder.txtCategoria.text = item.fecha
+        }
 
         val montoFormateado = String.format("%.2f", item.monto)
 

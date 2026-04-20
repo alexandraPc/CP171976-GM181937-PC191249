@@ -31,6 +31,7 @@ class RegistroActivity : AppCompatActivity() {
 
         val btnGasto = findViewById<Button>(R.id.btnGasto)
         val btnIngreso = findViewById<Button>(R.id.btnIngreso)
+        val etNombre = findViewById<EditText>(R.id.etNombre)
         val etMonto = findViewById<EditText>(R.id.etMonto)
         val tvFecha = findViewById<TextView>(R.id.tvFechaSeleccionada)
         val groupCategorias = findViewById<ChipGroup>(R.id.groupCategorias)
@@ -70,7 +71,7 @@ class RegistroActivity : AppCompatActivity() {
         // --- 2. CONFIGURACIÓN DE FECHA ---
         val calendario = Calendar.getInstance()
         val formatoVista = SimpleDateFormat("d 'de' MMMM", Locale("es", "ES"))
-        val formatoDB = SimpleDateFormat("dd/MM/yyyy", Locale.US)
+        val formatoDB = SimpleDateFormat("yyyy-MM-dd", Locale.US)
         fechaParaDB = formatoDB.format(calendario.time)
         tvFecha.text = formatoVista.format(calendario.time)
 
@@ -149,6 +150,7 @@ class RegistroActivity : AppCompatActivity() {
 
         // --- 6. BOTÓN CONFIRMAR ---
         btnConfirmar.setOnClickListener {
+            val nombre = etNombre.text.toString().trim()
             val montoTexto = etMonto.text.toString()
             val idChip = groupCategorias.checkedChipId
             if (idChip == -1) {
@@ -160,9 +162,10 @@ class RegistroActivity : AppCompatActivity() {
                     val montoNum = montoTexto.toDouble()
                     if (montoNum > 0) {
                         val cat = findViewById<Chip>(idChip).text.toString()
-                        dbHelper.insertarTransaccion(tipoSeleccionado, montoNum, cat, fechaParaDB)
+                        dbHelper.insertarTransaccion(nombre, tipoSeleccionado, montoNum, cat, fechaParaDB)
                         Toast.makeText(this, "✅ Registro guardado", Toast.LENGTH_SHORT).show()
                         finish()
+                        etNombre.text.clear()
                         etMonto.text.clear()
                         groupCategorias.clearCheck()
                     } else {

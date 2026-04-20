@@ -1,21 +1,25 @@
 package com.example.cp171976_gm181937_pc191249.database
 
 import com.example.cp171976_gm181937_pc191249.Transaccion
+import com.example.cp171976_gm181937_pc191249.model.Suscripcion
 import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 
-class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, "Finanzas.db", null, 1) {
+class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, "Finanzas.db", null, 4) {
 
     override fun onCreate(db: SQLiteDatabase?) {
         // 1. Tabla de transacciones (Donde se guardan los gastos/ingresos)
-        db?.execSQL("CREATE TABLE transacciones (id INTEGER PRIMARY KEY AUTOINCREMENT, tipo TEXT, monto REAL, categoria TEXT, fecha TEXT)")
+        db?.execSQL("CREATE TABLE transacciones (id INTEGER PRIMARY KEY AUTOINCREMENT, nombre TEXT, tipo TEXT, monto REAL, categoria TEXT, fecha TEXT)")
 
         // 2. Tabla de categorías (Donde se guardan las etiquetas como "🍔 Antojos")
         db?.execSQL("CREATE TABLE categorias (id INTEGER PRIMARY KEY AUTOINCREMENT, nombre TEXT, tipo TEXT)")
 
-        // 3. Insertamos las categorías por defecto para que la app no empiece vacía
+        // 3. Tabla de suscripciones
+        db?.execSQL("CREATE TABLE suscripciones (id INTEGER PRIMARY KEY AUTOINCREMENT, nombre TEXT, monto REAL, diaPago INTEGER, categoria TEXT)")
+
+        // 4. Insertamos las categorías por defecto para que la app no empiece vacía
         insertarCategoriasBase(db)
     }
 
@@ -34,17 +38,17 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, "Finanzas.db"
     }
 
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
-        db?.execSQL("DROP TABLE IF EXISTS transacciones")
-        db?.execSQL("DROP TABLE IF EXISTS categorias")
-        onCreate(db)
+        if (oldVersion < 3) {
+            db?.execSQL("CREATE TABLE IF NOT EXISTS suscripciones (id INTEGER PRIMARY KEY AUTOINCREMENT, nombre TEXT, monto REAL, diaPago INTEGER, categoria TEXT)")
+        }
     }
 
     // --- FUNCIONES QUE LLAMA TU MAIN ACTIVITY ---
 
-    fun insertarTransaccion(tipo: String, monto: Double, categoria: String, fecha: String): Long {
+    fun insertarTransaccion(nombre: String, tipo: String, monto: Double, categoria: String, fecha: String): Long {
         val db = this.writableDatabase
         val v = ContentValues().apply {
-            put("tipo", tipo); put("monto", monto); put("categoria", categoria); put("fecha", fecha)
+            put("nombre", nombre); put("tipo", tipo); put("monto", monto); put("categoria", categoria); put("fecha", fecha)
         }
         return db.insert("transacciones", null, v)
     }
@@ -111,17 +115,65 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, "Finanzas.db"
         cursor.close()
         return total
     }
+
     fun obtenerUltimosGastos(): List<Transaccion> {
+        return obtenerTransaccionesFiltradas(limit = 5)
+    }
+
+    fun obtenerTransaccionesFiltradas(
+        query: String? = null,
+        categoria: String? = null,
+        fechaInicio: String? = null,
+        fechaFin: String? = null,
+        tipo: String? = null,
+        limit: Int? = null
+    ): List<Transaccion> {
         val lista = mutableListOf<Transaccion>()
         val db = this.readableDatabase
 
-        // ORDER BY id DESC (el más nuevo primero) y LIMIT 4 (solo 4 filas)
-        val cursor = db.rawQuery("SELECT * FROM transacciones ORDER BY id DESC LIMIT 4", null)
+        var selection = ""
+        val selectionArgs = mutableListOf<String>()
+
+        if (!query.isNullOrEmpty()) {
+            selection += "nombre LIKE ?"
+            selectionArgs.add("%$query%")
+        }
+
+        if (!categoria.isNullOrEmpty() && categoria != "Todas") {
+            if (selection.isNotEmpty()) selection += " AND "
+            selection += "categoria = ?"
+            selectionArgs.add(categoria)
+        }
+
+        if (!fechaInicio.isNullOrEmpty() && !fechaFin.isNullOrEmpty()) {
+            if (selection.isNotEmpty()) selection += " AND "
+            selection += "fecha BETWEEN ? AND ?"
+            selectionArgs.add(fechaInicio)
+            selectionArgs.add(fechaFin)
+        }
+
+        if (!tipo.isNullOrEmpty() && tipo != "Todos") {
+            if (selection.isNotEmpty()) selection += " AND "
+            selection += "tipo = ?"
+            selectionArgs.add(tipo)
+        }
+
+        val cursor = db.query(
+            "transacciones",
+            null,
+            if (selection.isEmpty()) null else selection,
+            if (selectionArgs.isEmpty()) null else selectionArgs.toTypedArray(),
+            null,
+            null,
+            "fecha DESC, id DESC",
+            limit?.toString()
+        )
 
         if (cursor.moveToFirst()) {
             do {
                 lista.add(Transaccion(
                     cursor.getInt(cursor.getColumnIndexOrThrow("id")),
+                    cursor.getString(cursor.getColumnIndexOrThrow("nombre")),
                     cursor.getDouble(cursor.getColumnIndexOrThrow("monto")),
                     cursor.getString(cursor.getColumnIndexOrThrow("categoria")),
                     cursor.getString(cursor.getColumnIndexOrThrow("fecha")),
@@ -131,5 +183,52 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, "Finanzas.db"
         }
         cursor.close()
         return lista
+    }
+
+    // --- FUNCIONES PARA SUSCRIPCIONES ---
+
+    fun insertarSuscripcion(nombre: String, monto: Double, diaPago: Int, categoria: String): Long {
+        val db = this.writableDatabase
+        val v = ContentValues().apply {
+            put("nombre", nombre)
+            put("monto", monto)
+            put("diaPago", diaPago)
+            put("categoria", categoria)
+        }
+        return db.insert("suscripciones", null, v)
+    }
+
+    fun eliminarSuscripcion(id: Int) {
+        this.writableDatabase.delete("suscripciones", "id = ?", arrayOf(id.toString()))
+    }
+
+    fun obtenerSuscripciones(): List<Suscripcion> {
+        val lista = mutableListOf<Suscripcion>()
+        val db = this.readableDatabase
+        val cursor = db.rawQuery("SELECT * FROM suscripciones", null)
+        if (cursor.moveToFirst()) {
+            do {
+                lista.add(Suscripcion(
+                    cursor.getInt(cursor.getColumnIndexOrThrow("id")),
+                    cursor.getString(cursor.getColumnIndexOrThrow("nombre")),
+                    cursor.getDouble(cursor.getColumnIndexOrThrow("monto")),
+                    cursor.getInt(cursor.getColumnIndexOrThrow("diaPago")),
+                    cursor.getString(cursor.getColumnIndexOrThrow("categoria"))
+                ))
+            } while (cursor.moveToNext())
+        }
+        cursor.close()
+        return lista
+    }
+
+    fun obtenerSumaSuscripciones(): Double {
+        var total = 0.0
+        val db = this.readableDatabase
+        val cursor = db.rawQuery("SELECT SUM(monto) FROM suscripciones", null)
+        if (cursor.moveToFirst()) {
+            total = cursor.getDouble(0)
+        }
+        cursor.close()
+        return total
     }
 }

@@ -26,6 +26,31 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, RegistroActivity::class.java)
             startActivity(intent)
         }
+
+        findViewById<TextView>(R.id.btnVerTodo).setOnClickListener {
+            startActivity(Intent(this, HistoryActivity::class.java))
+        }
+
+        val bottomNavigation = findViewById<com.google.android.material.bottomnavigation.BottomNavigationView>(R.id.bottomNavigation)
+        bottomNavigation.selectedItemId = R.id.nav_home
+        bottomNavigation.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.nav_home -> true
+                R.id.nav_history -> {
+                    startActivity(Intent(this, HistoryActivity::class.java))
+                    true
+                }
+                R.id.nav_subscriptions -> {
+                    startActivity(Intent(this, SubscriptionsActivity::class.java))
+                    true
+                }
+                R.id.nav_goals -> {
+                    // startActivity(Intent(this, GoalsActivity::class.java))
+                    true
+                }
+                else -> false
+            }
+        }
     }
 
     override fun onResume() {
