@@ -1,12 +1,13 @@
 package com.example.cp171976_gm181937_pc191249.database
 
 import com.example.cp171976_gm181937_pc191249.Transaccion
+import com.example.cp171976_gm181937_pc191249.model.Suscripcion
 import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 
-class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, "Finanzas.db", null, 2) {
+class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, "Finanzas.db", null, 4) {
 
     override fun onCreate(db: SQLiteDatabase?) {
         // 1. Tabla de transacciones (Donde se guardan los gastos/ingresos)
@@ -15,7 +16,10 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, "Finanzas.db"
         // 2. Tabla de categorías (Donde se guardan las etiquetas como "🍔 Antojos")
         db?.execSQL("CREATE TABLE categorias (id INTEGER PRIMARY KEY AUTOINCREMENT, nombre TEXT, tipo TEXT)")
 
-        // 3. Insertamos las categorías por defecto para que la app no empiece vacía
+        // 3. Tabla de suscripciones
+        db?.execSQL("CREATE TABLE suscripciones (id INTEGER PRIMARY KEY AUTOINCREMENT, nombre TEXT, monto REAL, diaPago INTEGER, categoria TEXT)")
+
+        // 4. Insertamos las categorías por defecto para que la app no empiece vacía
         insertarCategoriasBase(db)
     }
 
@@ -34,9 +38,9 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, "Finanzas.db"
     }
 
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
-        db?.execSQL("DROP TABLE IF EXISTS transacciones")
-        db?.execSQL("DROP TABLE IF EXISTS categorias")
-        onCreate(db)
+        if (oldVersion < 3) {
+            db?.execSQL("CREATE TABLE IF NOT EXISTS suscripciones (id INTEGER PRIMARY KEY AUTOINCREMENT, nombre TEXT, monto REAL, diaPago INTEGER, categoria TEXT)")
+        }
     }
 
     // --- FUNCIONES QUE LLAMA TU MAIN ACTIVITY ---
@@ -111,6 +115,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, "Finanzas.db"
         cursor.close()
         return total
     }
+
     fun obtenerUltimosGastos(): List<Transaccion> {
         return obtenerTransaccionesFiltradas(limit = 5)
     }
@@ -178,5 +183,52 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, "Finanzas.db"
         }
         cursor.close()
         return lista
+    }
+
+    // --- FUNCIONES PARA SUSCRIPCIONES ---
+
+    fun insertarSuscripcion(nombre: String, monto: Double, diaPago: Int, categoria: String): Long {
+        val db = this.writableDatabase
+        val v = ContentValues().apply {
+            put("nombre", nombre)
+            put("monto", monto)
+            put("diaPago", diaPago)
+            put("categoria", categoria)
+        }
+        return db.insert("suscripciones", null, v)
+    }
+
+    fun eliminarSuscripcion(id: Int) {
+        this.writableDatabase.delete("suscripciones", "id = ?", arrayOf(id.toString()))
+    }
+
+    fun obtenerSuscripciones(): List<Suscripcion> {
+        val lista = mutableListOf<Suscripcion>()
+        val db = this.readableDatabase
+        val cursor = db.rawQuery("SELECT * FROM suscripciones", null)
+        if (cursor.moveToFirst()) {
+            do {
+                lista.add(Suscripcion(
+                    cursor.getInt(cursor.getColumnIndexOrThrow("id")),
+                    cursor.getString(cursor.getColumnIndexOrThrow("nombre")),
+                    cursor.getDouble(cursor.getColumnIndexOrThrow("monto")),
+                    cursor.getInt(cursor.getColumnIndexOrThrow("diaPago")),
+                    cursor.getString(cursor.getColumnIndexOrThrow("categoria"))
+                ))
+            } while (cursor.moveToNext())
+        }
+        cursor.close()
+        return lista
+    }
+
+    fun obtenerSumaSuscripciones(): Double {
+        var total = 0.0
+        val db = this.readableDatabase
+        val cursor = db.rawQuery("SELECT SUM(monto) FROM suscripciones", null)
+        if (cursor.moveToFirst()) {
+            total = cursor.getDouble(0)
+        }
+        cursor.close()
+        return total
     }
 }

@@ -40,6 +40,10 @@ class MainActivity : AppCompatActivity() {
                     startActivity(Intent(this, HistoryActivity::class.java))
                     true
                 }
+                R.id.nav_subscriptions -> {
+                    startActivity(Intent(this, SubscriptionsActivity::class.java))
+                    true
+                }
                 R.id.nav_goals -> {
                     // startActivity(Intent(this, GoalsActivity::class.java))
                     true

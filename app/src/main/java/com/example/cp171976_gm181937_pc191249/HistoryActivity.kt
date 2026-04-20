@@ -66,6 +66,11 @@ class HistoryActivity : AppCompatActivity() {
                     true
                 }
                 R.id.nav_history -> true
+                R.id.nav_subscriptions -> {
+                    startActivity(Intent(this, SubscriptionsActivity::class.java))
+                    finish()
+                    true
+                }
                 R.id.nav_goals -> {
                     // startActivity(Intent(this, GoalsActivity::class.java))
                     true
