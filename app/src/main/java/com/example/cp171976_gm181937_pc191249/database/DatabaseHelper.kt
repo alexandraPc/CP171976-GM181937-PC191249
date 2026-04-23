@@ -1,13 +1,14 @@
 package com.example.cp171976_gm181937_pc191249.database
 
 import com.example.cp171976_gm181937_pc191249.Transaccion
+import com.example.cp171976_gm181937_pc191249.model.Meta
 import com.example.cp171976_gm181937_pc191249.model.Suscripcion
 import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 
-class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, "Finanzas.db", null, 4) {
+class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, "Finanzas.db", null, 5) {
 
     override fun onCreate(db: SQLiteDatabase?) {
         // 1. Tabla de transacciones (Donde se guardan los gastos/ingresos)
@@ -19,7 +20,10 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, "Finanzas.db"
         // 3. Tabla de suscripciones
         db?.execSQL("CREATE TABLE suscripciones (id INTEGER PRIMARY KEY AUTOINCREMENT, nombre TEXT, monto REAL, diaPago INTEGER, categoria TEXT)")
 
-        // 4. Insertamos las categorías por defecto para que la app no empiece vacía
+        // 4. Tabla de metas de ahorro
+        db?.execSQL("CREATE TABLE metas (id INTEGER PRIMARY KEY AUTOINCREMENT, nombre TEXT, descripcion TEXT, monto_objetivo REAL, monto_actual REAL DEFAULT 0, categoria TEXT, fecha_objetivo TEXT, es_principal INTEGER DEFAULT 0)")
+
+        // 5. Insertamos las categorías por defecto para que la app no empiece vacía
         insertarCategoriasBase(db)
     }
 
@@ -40,6 +44,9 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, "Finanzas.db"
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
         if (oldVersion < 3) {
             db?.execSQL("CREATE TABLE IF NOT EXISTS suscripciones (id INTEGER PRIMARY KEY AUTOINCREMENT, nombre TEXT, monto REAL, diaPago INTEGER, categoria TEXT)")
+        }
+        if (oldVersion < 5) {
+            db?.execSQL("CREATE TABLE IF NOT EXISTS metas (id INTEGER PRIMARY KEY AUTOINCREMENT, nombre TEXT, descripcion TEXT, monto_objetivo REAL, monto_actual REAL DEFAULT 0, categoria TEXT, fecha_objetivo TEXT, es_principal INTEGER DEFAULT 0)")
         }
     }
 
@@ -230,5 +237,116 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, "Finanzas.db"
         }
         cursor.close()
         return total
+    }
+
+    // --- FUNCIONES PARA METAS DE AHORRO ---
+
+    fun insertarMeta(nombre: String, descripcion: String, montoObjetivo: Double, categoria: String, fechaObjetivo: String, esPrincipal: Boolean): Long {
+        val db = this.writableDatabase
+        val v = ContentValues().apply {
+            put("nombre", nombre)
+            put("descripcion", descripcion)
+            put("monto_objetivo", montoObjetivo)
+            put("monto_actual", 0.0)
+            put("categoria", categoria)
+            put("fecha_objetivo", fechaObjetivo)
+            put("es_principal", if (esPrincipal) 1 else 0)
+        }
+        return db.insert("metas", null, v)
+    }
+
+    fun obtenerMetas(): List<Meta> {
+        val lista = mutableListOf<Meta>()
+        val db = this.readableDatabase
+        val cursor = db.rawQuery("SELECT * FROM metas", null)
+        if (cursor.moveToFirst()) {
+            do {
+                lista.add(Meta(
+                    cursor.getInt(cursor.getColumnIndexOrThrow("id")),
+                    cursor.getString(cursor.getColumnIndexOrThrow("nombre")),
+                    cursor.getString(cursor.getColumnIndexOrThrow("descripcion")),
+                    cursor.getDouble(cursor.getColumnIndexOrThrow("monto_objetivo")),
+                    cursor.getDouble(cursor.getColumnIndexOrThrow("monto_actual")),
+                    cursor.getString(cursor.getColumnIndexOrThrow("categoria")),
+                    cursor.getString(cursor.getColumnIndexOrThrow("fecha_objetivo")),
+                    cursor.getInt(cursor.getColumnIndexOrThrow("es_principal")) == 1
+                ))
+            } while (cursor.moveToNext())
+        }
+        cursor.close()
+        return lista
+    }
+
+    fun obtenerMetaPrincipal(): Meta? {
+        val db = this.readableDatabase
+        val cursor = db.rawQuery("SELECT * FROM metas WHERE es_principal = 1 LIMIT 1", null)
+        var meta: Meta? = null
+        if (cursor.moveToFirst()) {
+            meta = Meta(
+                cursor.getInt(cursor.getColumnIndexOrThrow("id")),
+                cursor.getString(cursor.getColumnIndexOrThrow("nombre")),
+                cursor.getString(cursor.getColumnIndexOrThrow("descripcion")),
+                cursor.getDouble(cursor.getColumnIndexOrThrow("monto_objetivo")),
+                cursor.getDouble(cursor.getColumnIndexOrThrow("monto_actual")),
+                cursor.getString(cursor.getColumnIndexOrThrow("categoria")),
+                cursor.getString(cursor.getColumnIndexOrThrow("fecha_objetivo")),
+                true
+            )
+        }
+        cursor.close()
+        return meta
+    }
+
+    fun obtenerMetasSecundarias(): List<Meta> {
+        val lista = mutableListOf<Meta>()
+        val db = this.readableDatabase
+        val cursor = db.rawQuery("SELECT * FROM metas WHERE es_principal = 0", null)
+        if (cursor.moveToFirst()) {
+            do {
+                lista.add(Meta(
+                    cursor.getInt(cursor.getColumnIndexOrThrow("id")),
+                    cursor.getString(cursor.getColumnIndexOrThrow("nombre")),
+                    cursor.getString(cursor.getColumnIndexOrThrow("descripcion")),
+                    cursor.getDouble(cursor.getColumnIndexOrThrow("monto_objetivo")),
+                    cursor.getDouble(cursor.getColumnIndexOrThrow("monto_actual")),
+                    cursor.getString(cursor.getColumnIndexOrThrow("categoria")),
+                    cursor.getString(cursor.getColumnIndexOrThrow("fecha_objetivo")),
+                    false
+                ))
+            } while (cursor.moveToNext())
+        }
+        cursor.close()
+        return lista
+    }
+
+    fun agregarAhorroAMeta(id: Int, monto: Double) {
+        val db = this.writableDatabase
+        db.execSQL("UPDATE metas SET monto_actual = monto_actual + ? WHERE id = ?", arrayOf(monto, id))
+    }
+
+    fun obtenerTotalAhorrado(): Double {
+        var total = 0.0
+        val db = this.readableDatabase
+        val cursor = db.rawQuery("SELECT SUM(monto_actual) FROM metas", null)
+        if (cursor.moveToFirst()) {
+            total = cursor.getDouble(0)
+        }
+        cursor.close()
+        return total
+    }
+
+    fun obtenerPorcentajeTotalMetas(): Int {
+        val db = this.readableDatabase
+        val cursor = db.rawQuery("SELECT SUM(monto_actual), SUM(monto_objetivo) FROM metas", null)
+        var pct = 0
+        if (cursor.moveToFirst()) {
+            val actual = cursor.getDouble(0)
+            val objetivo = cursor.getDouble(1)
+            if (objetivo > 0) {
+                pct = ((actual / objetivo) * 100).toInt().coerceIn(0, 100)
+            }
+        }
+        cursor.close()
+        return pct
     }
 }

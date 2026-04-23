@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="28dp"
+    android:background="#FFFFFF">
+
+    <TextView
+        android:id="@+id/tvGoalNameTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Goal Name"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="#002446"
+        android:layout_marginBottom="4dp" />
+
+    <TextView
+        android:id="@+id/tvCurrentProgress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="$0 of $0 saved"
+        android:textSize="13sp"
+        android:textColor="#8A9BB0"
+        android:layout_marginBottom="20dp" />
+
+    <EditText
+        android:id="@+id/etSavingsAmount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Monto a agregar"
+        android:inputType="numberDecimal"
+        android:layout_marginBottom="20dp" />
+
+    <Button
+        android:id="@+id/btnConfirmSavings"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:text="Agregar Ahorro"
+        android:textColor="#FFFFFF"
+        android:backgroundTint="#002446"
+        android:layout_marginBottom="8dp" />
+
+    <Button
+        android:id="@+id/btnCancelSavings"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:text="Cancelar"
+        android:textColor="#002446"
+        android:backgroundTint="@android:color/transparent" />
+</LinearLayout>
