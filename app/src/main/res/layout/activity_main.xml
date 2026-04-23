@@ -68,7 +68,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="TOTAL NET WORTH"
+                    android:text="PATRIMONIO TOTAL"
                     android:textSize="11sp"
                     android:letterSpacing="0.12"
                     android:textColor="@color/dash_text_secondary" />
@@ -105,7 +105,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Overall Status"
+                        android:text="Estado General"
                         android:textSize="20sp"
                         android:textStyle="bold"
                         android:textColor="@color/dash_text_primary" />
@@ -114,7 +114,7 @@
                         android:id="@+id/tvStatusDescription"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Track your income and expenses to see your financial overview."
+                        android:text="Registra tus ingresos y gastos para ver tu resumen financiero."
                         android:textSize="13sp"
                         android:textColor="@color/dash_text_secondary"
                         android:layout_marginTop="8dp" />
@@ -178,7 +178,7 @@
                                 android:id="@+id/tvStatusLabel"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Stable &amp; Optimal"
+                                android:text="Estable y Óptimo"
                                 android:textSize="14sp"
                                 android:textStyle="bold"
                                 android:textColor="@color/dash_green"
@@ -188,7 +188,7 @@
                                 android:id="@+id/tvLastUpdated"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Last updated just now"
+                                android:text="Actualizado ahora mismo"
                                 android:textSize="11sp"
                                 android:textColor="@color/dash_text_secondary"
                                 android:gravity="end" />
@@ -225,7 +225,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="DAILY AVERAGE"
+                            android:text="PROMEDIO DIARIO"
                             android:textSize="10sp"
                             android:letterSpacing="0.1"
                             android:textColor="@color/dash_text_secondary" />
@@ -271,7 +271,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="MONTHLY COMMITMENTS"
+                            android:text="COMPROMISOS MENSUALES"
                             android:textSize="10sp"
                             android:letterSpacing="0.1"
                             android:textColor="@color/dash_text_secondary" />
@@ -290,7 +290,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="On Track"
+                            android:text="En camino"
                             android:textSize="12sp"
                             android:textColor="@color/dash_text_secondary"
                             android:layout_marginTop="4dp" />
@@ -318,7 +318,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Free Money"
+                        android:text="Dinero Libre"
                         android:textSize="18sp"
                         android:textStyle="bold"
                         android:textColor="@color/dash_text_primary" />
@@ -326,7 +326,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Disposable income remaining after all scheduled liabilities and savings goals."
+                        android:text="Ingreso disponible tras cubrir compromisos y metas de ahorro."
                         android:textSize="12sp"
                         android:textColor="@color/dash_text_secondary"
                         android:layout_marginTop="4dp" />
@@ -353,7 +353,7 @@
                             android:id="@+id/tvProgressPercent"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="0% OF\nMONTHLY\nBUDGET"
+                            android:text="0% DEL\nPRESUPUESTO\nMENSUAL"
                             android:textSize="10sp"
                             android:textColor="@color/dash_text_secondary"
                             android:letterSpacing="0.05"
@@ -381,7 +381,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="$0.00 Spent"
+                            android:text="$0.00 Gastado"
                             android:textSize="10sp"
                             android:textColor="@color/dash_text_muted" />
 
@@ -389,7 +389,7 @@
                             android:id="@+id/tvProgressTarget"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="$0.00 Target"
+                            android:text="$0.00 Objetivo"
                             android:textSize="10sp"
                             android:textColor="@color/dash_text_muted" />
                     </LinearLayout>
@@ -416,7 +416,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Recent Activity"
+                        android:text="Actividad Reciente"
                         android:textSize="20sp"
                         android:textStyle="bold"
                         android:textColor="@color/dash_text_primary" />
@@ -425,7 +425,7 @@
                         android:id="@+id/btnVerTodo"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="View Full Ledger"
+                        android:text="Ver Registro Completo"
                         android:textSize="13sp"
                         android:textColor="@color/dash_link"
                         android:textStyle="bold"

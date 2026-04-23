@@ -74,21 +74,21 @@ class MainActivity : AppCompatActivity() {
         val tvStatusGreen = findViewById<TextView>(R.id.tvStatusGreen)
         when {
             netWorth > 0 -> {
-                tvStatusLabel.text = "Stable & Optimal"
+                tvStatusLabel.text = "Estable y Óptimo"
                 tvStatusLabel.setTextColor(Color.parseColor("#30D64A"))
-                tvStatusDesc.text = "Your balance is positive. You're in a strong position to meet your financial goals."
+                tvStatusDesc.text = "Tu balance es positivo. Estás en buena posición para alcanzar tus metas financieras."
                 tvStatusGreen.setBackgroundResource(R.drawable.bg_status_green)
             }
             netWorth < 0 -> {
-                tvStatusLabel.text = "At Risk"
+                tvStatusLabel.text = "En Riesgo"
                 tvStatusLabel.setTextColor(Color.parseColor("#FF5252"))
-                tvStatusDesc.text = "Your expenses exceed your income. Consider reviewing your spending to improve your balance."
+                tvStatusDesc.text = "Tus gastos superan tus ingresos. Considera revisar tu gasto para mejorar tu balance."
                 tvStatusGreen.setBackgroundResource(R.drawable.bg_status_red)
             }
             else -> {
                 tvStatusLabel.text = "Neutral"
                 tvStatusLabel.setTextColor(Color.parseColor("#E29100"))
-                tvStatusDesc.text = "Register your income and expenses to see your financial overview."
+                tvStatusDesc.text = "Registra tus ingresos y gastos para ver tu resumen financiero."
                 tvStatusGreen.setBackgroundResource(R.drawable.bg_status_amber)
             }
         }
@@ -108,9 +108,9 @@ class MainActivity : AppCompatActivity() {
 
         // Progress bar
         findViewById<ProgressBar>(R.id.progressFreeMoney).progress = freePercent
-        findViewById<TextView>(R.id.tvProgressPercent).text = "$freePercent% OF\nMONTHLY\nBUDGET"
-        findViewById<TextView>(R.id.tvProgressSpent).text = "$${String.format("%,.2f", gastos)} Spent"
-        findViewById<TextView>(R.id.tvProgressTarget).text = "$${String.format("%,.2f", ingresos)} Target"
+        findViewById<TextView>(R.id.tvProgressPercent).text = "$freePercent% DEL\nPRESUPUESTO\nMENSUAL"
+        findViewById<TextView>(R.id.tvProgressSpent).text = "$${String.format("%,.2f", gastos)} Gastado"
+        findViewById<TextView>(R.id.tvProgressTarget).text = "$${String.format("%,.2f", ingresos)} Objetivo"
     }
 
     private fun cargarHistorial() {
