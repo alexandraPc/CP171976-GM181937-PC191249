@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp"
+        android:background="#FFFFFF">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nueva Alcancía"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:textColor="#002446"
+            android:layout_marginBottom="4dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Crea una nueva meta de ahorro"
+            android:textSize="14sp"
+            android:textColor="#8A9BB0"
+            android:layout_marginBottom="20dp" />
+
+        <EditText
+            android:id="@+id/etGoalName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Nombre de la meta"
+            android:inputType="text"
+            android:layout_marginBottom="12dp" />
+
+        <EditText
+            android:id="@+id/etGoalDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Descripción (ej. Q4 2025 • Vacaciones)"
+            android:inputType="text"
+            android:layout_marginBottom="12dp" />
+
+        <EditText
+            android:id="@+id/etGoalTarget"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Monto objetivo"
+            android:inputType="numberDecimal"
+            android:layout_marginBottom="12dp" />
+
+        <EditText
+            android:id="@+id/etGoalDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Fecha objetivo (AAAA-MM-DD)"
+            android:inputType="text"
+            android:layout_marginBottom="12dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Categoría"
+            android:textSize="13sp"
+            android:textColor="#5A6B7B"
+            android:layout_marginBottom="4dp" />
+
+        <Spinner
+            android:id="@+id/spinnerGoalCategory"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp" />
+
+        <CheckBox
+            android:id="@+id/cbEsPrincipal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Establecer como meta principal"
+            android:textColor="#0D1B2A"
+            android:layout_marginBottom="20dp" />
+
+        <Button
+            android:id="@+id/btnCreateGoal"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:text="Crear Meta"
+            android:textColor="#FFFFFF"
+            android:backgroundTint="#002446"
+            android:layout_marginBottom="8dp" />
+
+        <Button
+            android:id="@+id/btnCancelGoal"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:text="Cancelar"
+            android:textColor="#002446"
+            android:backgroundTint="@android:color/transparent" />
+    </LinearLayout>
+</ScrollView>

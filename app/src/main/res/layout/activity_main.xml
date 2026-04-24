@@ -5,195 +5,457 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F7F9FC"
-    android:fitsSystemWindows="true"  tools:context=".MainActivity">
+    android:background="@color/dash_bg"
+    tools:context=".MainActivity">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="80dp"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"> <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="16dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Mi Pulso Financiero"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            android:textColor="#1A1C1E"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="16dp"/>
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cardSemaforo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:cardCornerRadius="24dp"
-            app:cardElevation="4dp"
-            app:cardBackgroundColor="#4CAF50">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="24dp"
-                android:gravity="center">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="DINERO LIBRE"
-                    android:textColor="#FFFFFF"
-                    android:letterSpacing="0.1"
-                    android:textSize="14sp" />
-                <TextView
-                    android:id="@+id/tvDineroLibre"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="$0.00"
-                    android:textColor="#FFFFFF"
-                    android:textSize="40sp"
-                    android:textStyle="bold" />
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
+        android:layout_marginBottom="64dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="16dp"
-            android:baselineAligned="false">
+            android:orientation="vertical">
 
-            <androidx.cardview.widget.CardView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                app:cardCornerRadius="16dp">
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="16dp">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Ingresos"
-                        android:textSize="12sp" />
-                    <TextView
-                        android:id="@+id/tvIngresosHome"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="$0.00"
-                        android:textColor="#2E7D32"
-                        android:textStyle="bold"
-                        android:textSize="18sp" />
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginStart="8dp"
-                app:cardCornerRadius="16dp">
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="16dp">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Gastos"
-                        android:textSize="12sp" />
-                    <TextView
-                        android:id="@+id/tvGastosHome"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="$0.00"
-                        android:textColor="#C62828"
-                        android:textStyle="bold"
-                        android:textSize="18sp" />
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
-        </LinearLayout>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Alertas e Insights"
-            android:textStyle="bold"
-            android:layout_marginTop="24dp"
-            android:layout_marginBottom="8dp"/>
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:cardCornerRadius="16dp"
-            app:cardBackgroundColor="#FFF4E5">
-            <TextView
-                android:id="@+id/tvMensajeInsight"
+            <!-- Top App Bar -->
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="16dp"
-                android:text="Registra tus gastos para ver tu análisis de Gastos Hormiga."
-                android:textColor="#663C00" />
-        </androidx.cardview.widget.CardView>
+                android:orientation="horizontal"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
+                android:paddingTop="20dp"
+                android:paddingBottom="12dp"
+                android:gravity="center_vertical">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp">
-            <TextView
-                android:layout_width="wrap_content"
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/bg_icon_placeholder"
+                    android:src="@android:drawable/ic_menu_myplaces"
+                    android:tint="@color/white"
+                    android:padding="8dp"
+                    android:scaleType="centerInside" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="12dp"
+                    android:text="Ledger"
+                    android:textSize="22sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/dash_text_primary" />
+
+                <ImageView
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:src="@android:drawable/stat_notify_more"
+                    android:tint="@color/dash_text_primary" />
+            </LinearLayout>
+
+            <!-- Total Net Worth -->
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Actividad Reciente"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:textColor="#000000" />
-            <TextView
-                android:id="@+id/btnVerTodo"
-                android:layout_width="wrap_content"
+                android:orientation="vertical"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
+                android:paddingTop="8dp"
+                android:paddingBottom="4dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="INGRESOS TOTALES"
+                    android:textSize="11sp"
+                    android:letterSpacing="0.12"
+                    android:textColor="@color/dash_text_secondary" />
+
+                <TextView
+                    android:id="@+id/tvNetWorth"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="$0.00"
+                    android:textSize="42sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/dash_text_primary"
+                    android:layout_marginTop="2dp"
+                    tools:text="$142,850.00" />
+            </LinearLayout>
+
+            <!-- Overall Status Card -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:text="Ver Todo"
-                android:textColor="#1A237E"
-                android:textStyle="bold" />
-        </RelativeLayout>
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginTop="16dp"
+                app:cardCornerRadius="16dp"
+                app:cardBackgroundColor="@color/dash_card"
+                app:cardElevation="0dp">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvTransacciones"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:nestedScrollingEnabled="false" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp">
 
-    </LinearLayout>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Estado General"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/dash_text_primary" />
+
+                    <TextView
+                        android:id="@+id/tvStatusDescription"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Registra tus ingresos y gastos para ver tu resumen financiero."
+                        android:textSize="13sp"
+                        android:textColor="@color/dash_text_secondary"
+                        android:layout_marginTop="8dp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="20dp"
+                        android:gravity="center_vertical">
+
+                        <!-- Traffic light circles -->
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="horizontal"
+                            android:gravity="center_vertical">
+
+                            <TextView
+                                android:id="@+id/tvStatusGreen"
+                                android:layout_width="52dp"
+                                android:layout_height="52dp"
+                                android:text="✓"
+                                android:textSize="22sp"
+                                android:textColor="@color/white"
+                                android:gravity="center"
+                                android:background="@drawable/bg_status_green" />
+
+                            <TextView
+                                android:id="@+id/tvStatusAmber"
+                                android:layout_width="52dp"
+                                android:layout_height="52dp"
+                                android:text="⚠"
+                                android:textSize="20sp"
+                                android:textColor="@color/dash_amber"
+                                android:gravity="center"
+                                android:layout_marginStart="8dp"
+                                android:background="@drawable/bg_status_amber" />
+
+                            <TextView
+                                android:id="@+id/tvStatusRed"
+                                android:layout_width="52dp"
+                                android:layout_height="52dp"
+                                android:text="✕"
+                                android:textSize="20sp"
+                                android:textColor="@color/dash_red"
+                                android:gravity="center"
+                                android:layout_marginStart="8dp"
+                                android:background="@drawable/bg_status_red" />
+                        </LinearLayout>
+
+                        <!-- Status label -->
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:gravity="end">
+
+                            <TextView
+                                android:id="@+id/tvStatusLabel"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Estable y Óptimo"
+                                android:textSize="14sp"
+                                android:textStyle="bold"
+                                android:textColor="@color/dash_green"
+                                android:gravity="end" />
+
+                            <TextView
+                                android:id="@+id/tvLastUpdated"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Actualizado ahora mismo"
+                                android:textSize="11sp"
+                                android:textColor="@color/dash_text_secondary"
+                                android:gravity="end" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Stats Row -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginTop="12dp"
+                android:baselineAligned="false">
+
+                <!-- Daily Average -->
+                <androidx.cardview.widget.CardView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    app:cardCornerRadius="16dp"
+                    app:cardBackgroundColor="@color/dash_card"
+                    app:cardElevation="0dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="16dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="PROMEDIO DIARIO"
+                            android:textSize="10sp"
+                            android:letterSpacing="0.1"
+                            android:textColor="@color/dash_text_secondary" />
+
+                        <TextView
+                            android:id="@+id/tvDailyAverage"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="$0.00"
+                            android:textSize="22sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/dash_text_primary"
+                            android:layout_marginTop="8dp"
+                            tools:text="$84.20" />
+
+                        <TextView
+                            android:id="@+id/tvDailyTrend"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="↓ 4%"
+                            android:textSize="12sp"
+                            android:textColor="@color/dash_green"
+                            android:layout_marginTop="4dp" />
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <!-- Monthly Commitments -->
+                <androidx.cardview.widget.CardView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="12dp"
+                    app:cardCornerRadius="16dp"
+                    app:cardBackgroundColor="@color/dash_card"
+                    app:cardElevation="0dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="16dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="COMPROMISOS MENSUALES"
+                            android:textSize="10sp"
+                            android:letterSpacing="0.1"
+                            android:textColor="@color/dash_text_secondary" />
+
+                        <TextView
+                            android:id="@+id/tvMonthlyCommitments"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="$0.00"
+                            android:textSize="22sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/dash_text_primary"
+                            android:layout_marginTop="8dp"
+                            tools:text="$2,450" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="En camino"
+                            android:textSize="12sp"
+                            android:textColor="@color/dash_text_secondary"
+                            android:layout_marginTop="4dp" />
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+            </LinearLayout>
+
+            <!-- Free Money Card -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginTop="12dp"
+                app:cardCornerRadius="16dp"
+                app:cardBackgroundColor="@color/dash_card_blue"
+                app:cardElevation="0dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Dinero Libre"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/dash_text_primary" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Ingreso disponible tras cubrir compromisos y metas de ahorro."
+                        android:textSize="12sp"
+                        android:textColor="@color/dash_text_secondary"
+                        android:layout_marginTop="4dp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:layout_marginTop="16dp">
+
+                        <TextView
+                            android:id="@+id/tvFreeMoney"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="$0.00"
+                            android:textSize="30sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/dash_text_primary"
+                            tools:text="$1,120.00" />
+
+                        <TextView
+                            android:id="@+id/tvProgressPercent"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="0% DEL\nPRESUPUESTO\nMENSUAL"
+                            android:textSize="10sp"
+                            android:textColor="@color/dash_text_secondary"
+                            android:letterSpacing="0.05"
+                            android:gravity="end" />
+                    </LinearLayout>
+
+                    <ProgressBar
+                        android:id="@+id/progressFreeMoney"
+                        style="?android:attr/progressBarStyleHorizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="8dp"
+                        android:layout_marginTop="12dp"
+                        android:max="100"
+                        android:progress="0"
+                        android:progressDrawable="@drawable/progress_free_money" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="6dp">
+
+                        <TextView
+                            android:id="@+id/tvProgressSpent"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="$0.00 Gastado"
+                            android:textSize="10sp"
+                            android:textColor="@color/dash_text_muted" />
+
+                        <TextView
+                            android:id="@+id/tvProgressTarget"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="$0.00 Objetivo"
+                            android:textSize="10sp"
+                            android:textColor="@color/dash_text_muted" />
+                    </LinearLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Recent Activity -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="24dp"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="12dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Actividad Reciente"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/dash_text_primary" />
+
+                    <TextView
+                        android:id="@+id/btnVerTodo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Ver Registro Completo"
+                        android:textSize="13sp"
+                        android:textColor="@color/dash_link"
+                        android:textStyle="bold"
+                        android:padding="4dp" />
+                </LinearLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvTransacciones"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:nestedScrollingEnabled="false" />
+            </LinearLayout>
+
+            <!-- Bottom spacer -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="24dp" />
+
+        </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
+    <!-- Bottom Navigation -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:background="@color/white"
-        app:itemIconTint="@color/primary_blue"
-        app:itemTextColor="@color/primary_blue"
+        android:background="@color/dash_card"
+        app:itemIconTint="@color/dash_text_secondary"
+        app:itemTextColor="@color/dash_text_secondary"
         app:menu="@menu/bottom_menu" />
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabAdd"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="95dp"
-        app:srcCompat="@android:drawable/ic_input_add"
-        app:backgroundTint="#1A3A5F"
-        app:tint="#FFFFFF"
-        app:fabSize="normal"
-        app:elevation="12dp"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

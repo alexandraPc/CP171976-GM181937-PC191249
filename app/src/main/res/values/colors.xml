@@ -9,4 +9,17 @@
     <color name="error_red">#F44336</color>
     <color name="card_bg">#FFFFFF</color>
     <color name="bg_light">#F8F9FA</color>
+
+    <!-- Dashboard dark theme -->
+    <color name="dash_bg">#091929</color>
+    <color name="dash_card">#112035</color>
+    <color name="dash_card_blue">#1A3A5F</color>
+    <color name="dash_text_primary">#FFFFFF</color>
+    <color name="dash_text_secondary">#8AAEC9</color>
+    <color name="dash_text_muted">#5A7A9A</color>
+    <color name="dash_green">#30D64A</color>
+    <color name="dash_red">#FF5252</color>
+    <color name="dash_amber">#E29100</color>
+    <color name="dash_progress_fill">#A3F69C</color>
+    <color name="dash_link">#5B9BD5</color>
 </resources>
