@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">CP171976-GM181937-PC191249</string>
+    <string name="history_title">Historial</string>
+    <string name="search_hint">Buscar transacciones...</string>
+    <string name="clear_filters">Limpiar</string>
+    <string name="filter_all">Todos</string>
+    <string name="filter_income">Ingresos</string>
+    <string name="filter_expense">Gastos</string>
+    <string name="date_range">Rango de fecha</string>
+    <string name="content_desc_history_icon">Icono de historial</string>
 </resources>

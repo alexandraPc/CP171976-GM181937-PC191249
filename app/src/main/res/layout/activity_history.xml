@@ -4,61 +4,84 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F7F9FC"
+    android:background="@color/dash_bg"
     android:fitsSystemWindows="true"
     tools:context=".HistoryActivity">
 
-    <com.google.android.material.appbar.AppBarLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#FFFFFF"
-        android:fitsSystemWindows="true"
-        app:elevation="0dp">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingBottom="56dp">
 
+        <!-- Header (Fixed) -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingHorizontal="16dp">
+            android:paddingHorizontal="20dp"
+            android:paddingTop="20dp"
+            android:paddingBottom="12dp"
+            android:background="@color/dash_bg"
+            android:elevation="4dp">
 
-            <RelativeLayout
+            <!-- Top Row -->
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <ImageView
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:background="@drawable/bg_icon_placeholder"
+                    android:src="@android:drawable/ic_menu_recent_history"
+                    android:tint="@color/white"
+                    android:padding="7dp"
+                    android:scaleType="centerInside" />
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="Historial de Transacciones"
-                    android:textColor="#1A1C1E"
-                    android:textSize="24sp"
-                    android:textStyle="bold" />
+                    android:layout_weight="1"
+                    android:layout_marginStart="12dp"
+                    android:text="Historial"
+                    android:textSize="22sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/dash_text_primary" />
 
                 <TextView
                     android:id="@+id/tvClearFilters"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
                     android:text="Limpiar"
-                    android:textColor="#1A237E"
+                    android:textColor="@color/dash_link"
                     android:textStyle="bold"
                     android:padding="8dp"
                     android:visibility="gone"
                     tools:visibility="visible" />
-            </RelativeLayout>
+            </LinearLayout>
 
+            <!-- Search Bar -->
             <EditText
                 android:id="@+id/etSearch"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:layout_marginTop="16dp"
-                android:background="@drawable/bg_search"
-                android:hint="Buscar por título..."
+                android:background="@drawable/bg_search_dark"
+                android:hint="Buscar transacciones..."
                 android:paddingHorizontal="16dp"
                 android:drawableStart="@android:drawable/ic_menu_search"
-                android:drawablePadding="8dp"
-                android:textSize="14sp" />
+                android:drawablePadding="12dp"
+                android:drawableTint="@color/dash_text_secondary"
+                android:textColor="@color/dash_text_primary"
+                android:textColorHint="@color/dash_text_muted"
+                android:textSize="14sp"
+                android:importantForAutofill="no"
+                android:inputType="text" />
 
+            <!-- Type Filter Chips -->
             <HorizontalScrollView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -69,7 +92,8 @@
                     android:id="@+id/chipGroupType"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:singleSelection="true">
+                    app:singleSelection="true"
+                    app:selectionRequired="true">
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/chipAll"
@@ -77,36 +101,51 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Todos"
-                        android:checked="true" />
+                        android:checked="true"
+                        android:textColor="@color/white"
+                        app:chipBackgroundColor="@color/dash_card_blue"
+                        app:chipStrokeWidth="0dp" />
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/chipIncome"
                         style="@style/Widget.MaterialComponents.Chip.Choice"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Ingresos" />
+                        android:text="Ingresos"
+                        android:textColor="@color/dash_text_secondary"
+                        app:chipBackgroundColor="@color/dash_card"
+                        app:chipStrokeWidth="1dp"
+                        app:chipStrokeColor="@color/dash_card_blue" />
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/chipExpense"
                         style="@style/Widget.MaterialComponents.Chip.Choice"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Gastos" />
+                        android:text="Gastos"
+                        android:textColor="@color/dash_text_secondary"
+                        app:chipBackgroundColor="@color/dash_card"
+                        app:chipStrokeWidth="1dp"
+                        app:chipStrokeColor="@color/dash_card_blue" />
                 </com.google.android.material.chip.ChipGroup>
             </HorizontalScrollView>
 
+            <!-- Secondary Filters -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_marginTop="8dp">
+                android:layout_marginTop="8dp"
+                android:gravity="center_vertical">
 
                 <Spinner
                     android:id="@+id/spinnerCategory"
                     android:layout_width="0dp"
                     android:layout_height="40dp"
                     android:layout_weight="1"
-                    android:background="@drawable/bg_filter_item" />
+                    android:background="@drawable/bg_search_dark"
+                    android:paddingStart="8dp"
+                    android:paddingEnd="8dp" />
 
                 <Button
                     android:id="@+id/btnDateRange"
@@ -116,20 +155,30 @@
                     android:layout_marginStart="8dp"
                     android:text="Rango de fecha"
                     android:textSize="12sp"
-                    app:icon="@android:drawable/ic_menu_today" />
+                    android:textColor="@color/dash_link"
+                    android:textAllCaps="false"
+                    app:icon="@android:drawable/ic_menu_today"
+                    app:iconTint="@color/dash_link"
+                    app:iconPadding="4dp" />
             </LinearLayout>
 
         </LinearLayout>
-    </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvHistory"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:clipToPadding="false"
-        android:paddingBottom="80dp"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+        <!-- Content (Scrollable) -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvHistory"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:clipToPadding="false"
+            android:paddingHorizontal="20dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="16dp"
+            tools:listitem="@android:layout/simple_list_item_1" />
 
+    </LinearLayout>
+
+    <!-- Bottom Navigation (Fixed) -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigation"
         android:layout_width="match_parent"
@@ -138,6 +187,7 @@
         android:background="@color/dash_card"
         app:itemIconTint="@color/dash_text_secondary"
         app:itemTextColor="@color/dash_text_secondary"
-        app:menu="@menu/bottom_menu" />
+        app:menu="@menu/bottom_menu"
+        app:elevation="8dp" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
