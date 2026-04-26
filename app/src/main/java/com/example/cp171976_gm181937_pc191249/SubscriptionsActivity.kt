@@ -45,6 +45,7 @@ class SubscriptionsActivity : AppCompatActivity() {
         actualizarUI()
     }
 
+
     private fun setupRecyclerView() {
         val rv = findViewById<RecyclerView>(R.id.rvSubscriptions)
         rv.layoutManager = LinearLayoutManager(this)
@@ -156,6 +157,10 @@ class SubscriptionsActivity : AppCompatActivity() {
                     true
                 }
                 R.id.nav_subscriptions -> true
+                R.id.nav_goals -> {
+                    startActivity(Intent(this, GoalsActivity::class.java))
+                    false
+                }
                 else -> false
             }
         }

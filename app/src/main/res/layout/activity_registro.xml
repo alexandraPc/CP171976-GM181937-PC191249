@@ -34,7 +34,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="GASTO"
-                android:backgroundTint="#000000"
+                android:backgroundTint="#002446"
                 android:textColor="#FFFFFF" />
             <Button
                 android:id="@+id/btnIngreso"
@@ -149,10 +149,10 @@
             android:id="@+id/btnConfirmar"
             android:layout_width="match_parent"
             android:layout_height="64dp"
+            android:layout_marginTop="24dp"
+            android:backgroundTint="#002446"
             android:text="Añadir Registro"
-            android:backgroundTint="#005D67"
-            android:textSize="16sp"
             android:textAllCaps="false"
-            android:layout_marginTop="24dp" />
+            android:textSize="16sp" />
     </LinearLayout>
 </ScrollView>

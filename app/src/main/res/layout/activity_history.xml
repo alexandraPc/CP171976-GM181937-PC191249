@@ -135,9 +135,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:background="@color/white"
-        app:itemIconTint="@color/primary_blue"
-        app:itemTextColor="@color/primary_blue"
+        android:background="@color/dash_card"
+        app:itemIconTint="@color/dash_text_secondary"
+        app:itemTextColor="@color/dash_text_secondary"
         app:menu="@menu/bottom_menu" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

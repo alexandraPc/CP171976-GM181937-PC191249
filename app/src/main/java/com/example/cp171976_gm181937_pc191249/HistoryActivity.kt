@@ -41,6 +41,7 @@ class HistoryActivity : AppCompatActivity() {
         cargarHistorial()
     }
 
+
     private fun clearFilters() {
         filterQuery = null
         filterType = "Todos"
@@ -72,8 +73,8 @@ class HistoryActivity : AppCompatActivity() {
                     true
                 }
                 R.id.nav_goals -> {
-                    // startActivity(Intent(this, GoalsActivity::class.java))
-                    true
+                    startActivity(Intent(this, GoalsActivity::class.java))
+                    false
                 }
                 else -> false
             }

@@ -23,6 +23,11 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         dbHelper = DatabaseHelper(this)
+        val btnAdd = findViewById<android.widget.ImageButton>(R.id.btnAddTransaction)
+        btnAdd.setOnClickListener {
+            // Esto abrirá tu pantalla de registro
+            startActivity(Intent(this, RegistroActivity::class.java))
+        }
 
         findViewById<TextView>(R.id.btnVerTodo).setOnClickListener {
             startActivity(Intent(this, HistoryActivity::class.java))
